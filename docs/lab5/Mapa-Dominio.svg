@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1320" viewBox="0 0 1600 1320"><rect width="100%" height="100%" fill="white"/>
+<rect x="50" y="30" width="1500" height="150" fill="#FFFFFF" stroke="#333333" stroke-width="3"/>
+<text x="800" y="99" font-family="Arial, sans-serif" font-size="46" fill="#111111" text-anchor="middle">ORIENTATCC</text>
+<text x="800" y="152" font-family="Arial, sans-serif" font-size="36" fill="#111111" text-anchor="middle">Domínio  Gestão acadêmica da orientação de TCC</text>
+<polyline points="800,180 800,215 265,215 265,260" fill="none" stroke="#555555" stroke-width="3"/>
+<rect x="30" y="260" width="470" height="90" fill="#E8F0F8" stroke="#333333" stroke-width="3"/>
+<text x="265" y="322" font-family="Arial, sans-serif" font-size="40" fill="#111111" text-anchor="middle">CORE</text>
+<polyline points="265,350 265,362 18,362 18,1037" fill="none" stroke="#555555" stroke-width="3"/>
+<polyline points="18,497 30,497" fill="none" stroke="#555555" stroke-width="3"/>
+<polyline points="18,767 30,767" fill="none" stroke="#555555" stroke-width="3"/>
+<polyline points="18,1037 30,1037" fill="none" stroke="#555555" stroke-width="3"/>
+<rect x="30" y="375" width="470" height="245" fill="#E8F0F8" stroke="#333333" stroke-width="3"/>
+<text x="48" y="426" font-family="Arial, sans-serif" font-size="35" fill="#111111" text-anchor="start">Propostas e aceite da</text>
+<text x="48" y="469" font-family="Arial, sans-serif" font-size="35" fill="#111111" text-anchor="start">orientação</text>
+<text x="48" y="521" font-family="Arial, sans-serif" font-size="28" fill="#111111" text-anchor="start">Proposta</text>
+<text x="48" y="554" font-family="Arial, sans-serif" font-size="28" fill="#111111" text-anchor="start">tema</text>
+<text x="48" y="587" font-family="Arial, sans-serif" font-size="28" fill="#111111" text-anchor="start">aceite</text>
+<text x="48" y="620" font-family="Arial, sans-serif" font-size="28" fill="#111111" text-anchor="start">limite de orientandos</text>
+<rect x="30" y="645" width="470" height="245" fill="#E8F0F8" stroke="#333333" stroke-width="3"/>
+<text x="48" y="696" font-family="Arial, sans-serif" font-size="35" fill="#111111" text-anchor="start">Acompanhamento e</text>
+<text x="48" y="739" font-family="Arial, sans-serif" font-size="35" fill="#111111" text-anchor="start">conclusão do TCC</text>
+<text x="48" y="791" font-family="Arial, sans-serif" font-size="28" fill="#111111" text-anchor="start">Trabalho de TCC</text>
+<text x="48" y="824" font-family="Arial, sans-serif" font-size="28" fill="#111111" text-anchor="start">orientação</text>
+<text x="48" y="857" font-family="Arial, sans-serif" font-size="28" fill="#111111" text-anchor="start">resultado final</text>
+<rect x="30" y="915" width="470" height="245" fill="#E8F0F8" stroke="#333333" stroke-width="3"/>
+<text x="48" y="966" font-family="Arial, sans-serif" font-size="35" fill="#111111" text-anchor="start">Entregas e avaliação</text>
+<text x="48" y="1018" font-family="Arial, sans-serif" font-size="28" fill="#111111" text-anchor="start">Entrega</text>
+<text x="48" y="1051" font-family="Arial, sans-serif" font-size="28" fill="#111111" text-anchor="start">versão</text>
+<text x="48" y="1084" font-family="Arial, sans-serif" font-size="28" fill="#111111" text-anchor="start">feedback</text>
+<text x="48" y="1117" font-family="Arial, sans-serif" font-size="28" fill="#111111" text-anchor="start">parecer</text>
+<text x="48" y="1150" font-family="Arial, sans-serif" font-size="28" fill="#111111" text-anchor="start">em revisão</text>
+<polyline points="800,180 800,215 800,215 800,260" fill="none" stroke="#555555" stroke-width="3"/>
+<rect x="565" y="260" width="470" height="90" fill="#F0F0F0" stroke="#333333" stroke-width="3"/>
+<text x="800" y="322" font-family="Arial, sans-serif" font-size="40" fill="#111111" text-anchor="middle">SUPORTE</text>
+<polyline points="800,350 800,362 553,362 553,1037" fill="none" stroke="#555555" stroke-width="3"/>
+<polyline points="553,497 565,497" fill="none" stroke="#555555" stroke-width="3"/>
+<polyline points="553,767 565,767" fill="none" stroke="#555555" stroke-width="3"/>
+<polyline points="553,1037 565,1037" fill="none" stroke="#555555" stroke-width="3"/>
+<rect x="565" y="375" width="470" height="245" fill="#F0F0F0" stroke="#333333" stroke-width="3"/>
+<text x="583" y="426" font-family="Arial, sans-serif" font-size="35" fill="#111111" text-anchor="start">Planejamento e controle</text>
+<text x="583" y="469" font-family="Arial, sans-serif" font-size="35" fill="#111111" text-anchor="start">de prazos</text>
+<text x="583" y="521" font-family="Arial, sans-serif" font-size="28" fill="#111111" text-anchor="start">Cronograma</text>
+<text x="583" y="554" font-family="Arial, sans-serif" font-size="28" fill="#111111" text-anchor="start">etapa</text>
+<text x="583" y="587" font-family="Arial, sans-serif" font-size="28" fill="#111111" text-anchor="start">prazo</text>
+<text x="583" y="620" font-family="Arial, sans-serif" font-size="28" fill="#111111" text-anchor="start">prazo vencido</text>
+<rect x="565" y="645" width="470" height="245" fill="#F0F0F0" stroke="#333333" stroke-width="3"/>
+<text x="583" y="696" font-family="Arial, sans-serif" font-size="35" fill="#111111" text-anchor="start">Reuniões de orientação</text>
+<text x="583" y="748" font-family="Arial, sans-serif" font-size="28" fill="#111111" text-anchor="start">Disponibilidade</text>
+<text x="583" y="781" font-family="Arial, sans-serif" font-size="28" fill="#111111" text-anchor="start">solicitação</text>
+<text x="583" y="814" font-family="Arial, sans-serif" font-size="28" fill="#111111" text-anchor="start">reunião</text>
+<text x="583" y="847" font-family="Arial, sans-serif" font-size="28" fill="#111111" text-anchor="start">pauta</text>
+<rect x="565" y="915" width="470" height="245" fill="#F0F0F0" stroke="#333333" stroke-width="3"/>
+<text x="583" y="966" font-family="Arial, sans-serif" font-size="35" fill="#111111" text-anchor="start">Cadastro acadêmico</text>
+<text x="583" y="1018" font-family="Arial, sans-serif" font-size="28" fill="#111111" text-anchor="start">Aluno</text>
+<text x="583" y="1051" font-family="Arial, sans-serif" font-size="28" fill="#111111" text-anchor="start">orientador</text>
+<text x="583" y="1084" font-family="Arial, sans-serif" font-size="28" fill="#111111" text-anchor="start">curso</text>
+<text x="583" y="1117" font-family="Arial, sans-serif" font-size="28" fill="#111111" text-anchor="start">área de pesquisa</text>
+<polyline points="800,180 800,215 1335,215 1335,260" fill="none" stroke="#555555" stroke-width="3"/>
+<rect x="1100" y="260" width="470" height="90" fill="#EAF4ED" stroke="#333333" stroke-width="3"/>
+<text x="1335" y="322" font-family="Arial, sans-serif" font-size="40" fill="#111111" text-anchor="middle">GENÉRICO</text>
+<polyline points="1335,350 1335,362 1088,362 1088,497" fill="none" stroke="#555555" stroke-width="3"/>
+<polyline points="1088,497 1100,497" fill="none" stroke="#555555" stroke-width="3"/>
+<rect x="1100" y="375" width="470" height="245" fill="#EAF4ED" stroke="#333333" stroke-width="3"/>
+<text x="1118" y="426" font-family="Arial, sans-serif" font-size="35" fill="#111111" text-anchor="start">Identidade e acesso</text>
+<text x="1118" y="478" font-family="Arial, sans-serif" font-size="28" fill="#111111" text-anchor="start">Credencial</text>
+<text x="1118" y="511" font-family="Arial, sans-serif" font-size="28" fill="#111111" text-anchor="start">sessão</text>
+<text x="1118" y="544" font-family="Arial, sans-serif" font-size="28" fill="#111111" text-anchor="start">perfil de acesso</text>
+<text x="30" y="1265" font-family="Arial, sans-serif" font-size="30" fill="#111111" text-anchor="start">As linhas indicam a decomposição do domínio em áreas de negócio.</text>
+<text x="30" y="1305" font-family="Arial, sans-serif" font-size="28" fill="#111111" text-anchor="start">Classificação definida para a proposta de valor e o escopo atual do OrientaTCC.</text>
+</svg>

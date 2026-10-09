@@ -1,0 +1,22 @@
+flowchart TB
+  D["OrientaTCC — Gestão acadêmica da orientação de TCC"]
+  subgraph CORE["Core"]
+    S0["Propostas e aceite da orientação<br/>Proposta; tema; aceite; limite de orientandos"]
+    S1["Acompanhamento e conclusão do TCC<br/>Trabalho de TCC; orientação; resultado final"]
+    S2["Entregas e avaliação<br/>Entrega; versão; feedback; parecer; em revisão"]
+  end
+  D --> S0
+  D --> S1
+  D --> S2
+  subgraph SUPORTE["Suporte"]
+    S3["Planejamento e controle de prazos<br/>Cronograma; etapa; prazo; prazo vencido"]
+    S4["Reuniões de orientação<br/>Disponibilidade; solicitação; reunião; pauta"]
+    S5["Cadastro acadêmico<br/>Aluno; orientador; curso; área de pesquisa"]
+  end
+  D --> S3
+  D --> S4
+  D --> S5
+  subgraph GENÉRICO["Genérico"]
+    S6["Identidade e acesso<br/>Credencial; sessão; perfil de acesso"]
+  end
+  D --> S6

@@ -15,6 +15,22 @@ bun run dev:mobile   # Expo
 bun run typecheck    # todos os workspaces
 ```
 
+## Lab 5 — Mapa de Domínio e Linguagem Ubíqua
+
+A [especificação do domínio](docs/lab5/Mapa-Dominio-OrientaTCC.docx) preenche o template original da disciplina, preservando suas seções, tabelas e identidade visual. Contém a descrição do domínio, sete subdomínios com responsabilidades e justificativas, 24 termos com significados e exemplos, e o mapa incorporado ao documento.
+
+| Classificação | Subdomínios |
+|---|---|
+| Core | Propostas e aceite da orientação; Acompanhamento e conclusão do TCC; Entregas e avaliação |
+| Suporte | Planejamento e controle de prazos; Reuniões de orientação; Cadastro acadêmico |
+| Genérico | Identidade e acesso |
+
+A classificação considera a proposta de valor do OrientaTCC: acompanhar a orientação e preservar a relação entre versões e avaliações. Subdomínios representam áreas de negócio e podem reunir vários componentes. Entregas e Feedback colaboram no mesmo subdomínio, mantendo a separação do Lab 4: Cronograma interpreta o vencimento; Entregas controla a situação da entrega; Feedback registra o parecer e solicita a transição pela interface de Entregas. Proposta e TCC permanecem separados conforme a revisão do Lab 3. Bancas, coordenação e notificações estão fora do recorte adotado.
+
+O mapa também está disponível em [PNG](docs/lab5/Mapa-Dominio.png), [SVG editável](docs/lab5/Mapa-Dominio.svg) e [Mermaid](docs/lab5/Mapa-Dominio.mmd). Sua hierarquia representa a decomposição do domínio, sem especificar dependências de implementação. Referência conceitual: [DDD Reference, Eric Evans](https://www.domainlanguage.com/wp-content/uploads/2016/05/DDD_Reference_2015-03.pdf); as classificações são decisões específicas deste projeto.
+
+![Mapa de Domínio do OrientaTCC](docs/lab5/Mapa-Dominio.png)
+
 ## Lab 4 — Entregas e Feedback
 
 Implementação dos componentes **Entregas** (`IEntrega`) e **Feedback** (`IFeedback`), conforme UC04, UC05 e UC06 do Lab 3. A especificação está em [docs/lab4/Especificacao-Componentes.docx](docs/lab4/Especificacao-Componentes.docx), acompanhada do [roteiro do vídeo](docs/lab4/ROTEIRO-VIDEO.md) e das [evidências](docs/lab4/evidencias/).
