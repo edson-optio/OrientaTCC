@@ -1,0 +1,33 @@
+{
+  "name": "@orientatcc/api",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun --watch src/index.ts",
+    "start": "bun src/index.ts",
+    "build": "bun build src/index.ts --target bun --outdir dist",
+    "typecheck": "tsc --noEmit",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "bun src/db/migrate.ts",
+    "db:studio": "drizzle-kit studio",
+    "db:seed": "bun src/db/seed.ts",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "@elysiajs/cors": "^1.4.2",
+    "@elysiajs/cron": "^1.4.2",
+    "@elysiajs/openapi": "^1.4.16",
+    "@sinclair/typebox": "^0.34.52",
+    "better-auth": "^1.7.5",
+    "drizzle-orm": "^0.45.2",
+    "elysia": "^1.4.30",
+    "resend": "^6.28.1"
+  },
+  "devDependencies": {
+    "@orientatcc/typescript-config": "workspace:*",
+    "bun-types": "^1.4.2",
+    "drizzle-kit": "^0.31.10",
+    "typescript": "^5.8.0"
+  }
+}

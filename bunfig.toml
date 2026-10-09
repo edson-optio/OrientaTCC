@@ -1,0 +1,4 @@
+[install]
+# Expo/Metro precisam de uma única cópia de cada pacote nativo; o linker isolado
+# do Bun cria variantes por peer dependency e o expo-doctor acusa duplicatas.
+linker = "hoisted"

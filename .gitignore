@@ -1,0 +1,20 @@
+node_modules/
+dist/
+build/
+.turbo/
+.expo/
+*.log
+.env
+.env.*
+!.env.example
+.DS_Store
+ios/
+android/
+apps/api/data/*.db*
+
+# SQLite gerado ao executar testes a partir da raiz
+/data/*.db*
+
+# Arquivos temporários do Word e configurações locais do assistente
+~$*.docx
+apps/mobile/.claude/

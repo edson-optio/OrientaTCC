@@ -1,0 +1,4 @@
+{
+  "extends": "@orientatcc/typescript-config/bun.json",
+  "include": ["src"]
+}

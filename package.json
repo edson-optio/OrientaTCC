@@ -1,0 +1,24 @@
+{
+  "name": "orientatcc",
+  "private": true,
+  "packageManager": "bun@1.3.11",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "typecheck": "turbo run typecheck",
+    "lint": "turbo run lint",
+    "dev:api": "turbo run dev --filter=@orientatcc/api",
+    "dev:mobile": "turbo run dev --filter=@orientatcc/mobile",
+    "test:lab": "bun test apps/api/src/modules/lab/componentes.test.ts",
+    "demo:lab": "bun scripts/demo-lab4.ts",
+    "test:api": "bun test apps/api/src"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.0",
+    "typescript": "^5.8.0"
+  }
+}
