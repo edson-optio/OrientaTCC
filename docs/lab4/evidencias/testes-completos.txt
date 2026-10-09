@@ -1,0 +1,121 @@
+$ bun test apps/api/src
+bun test v1.3.11 (af24e281)
+
+apps/api/src/modules/lab/componentes.test.ts:
+(pass) Entregas > preserva arquivo e incrementa versões no prazo [41.01ms]
+(pass) Entregas > aceita entrega atrasada e respeita fuso de São Paulo [9.97ms]
+(pass) Entregas > rejeita arquivo inválido sem criar versão [6.20ms]
+(pass) Entregas > rejeita terceiro e professor na submissão [7.78ms]
+(pass) Entregas > rejeita etapa inexistente e cronograma não publicado [4.47ms]
+(pass) Entregas > rejeita submissão em trabalho concluído [3.89ms]
+(pass) Feedback > rejeita parecer inválido, comentário vazio e versão inexistente [4.08ms]
+(pass) Feedback > somente orientador avalia e somente aluno marca como lido [8.17ms]
+(pass) Feedback > impede avaliação duplicada [6.32ms]
+(pass) Integração Entregas e Feedback > submissão → revisão → nova versão → aprovação → leitura [9.31ms]
+(pass) Integração Entregas e Feedback > versão antiga não muda estado e rollback remove feedback [6.87ms]
+(pass) Integração Entregas e Feedback > falha após atualizar situação reverte ambas as gravações [6.61ms]
+(pass) Integração Entregas e Feedback > HTTP autenticação, validação e integração dos serviços reais [33.05ms]
+(pass) Responsabilidades revisadas do Lab 3 > Cronograma determina vencimento no limite do dia e rejeita data inválida [4.46ms]
+(pass) Responsabilidades revisadas do Lab 3 > Entregas usa a decisão de Cronograma sem reinterpretar a data [3.72ms]
+(pass) Responsabilidades revisadas do Lab 3 > parecer de revisão altera a entrega e preserva o prazo do cronograma [5.65ms]
+
+apps/api/src/modules/notificacao/service.test.ts:
+(pass) NotificacaoService > gera o assunto correto para cada tipo > prazo_proximo [3.51ms]
+(pass) NotificacaoService > gera o assunto correto para cada tipo > entrega_atrasada [0.26ms]
+(pass) NotificacaoService > gera o assunto correto para cada tipo > feedback_disponivel [0.04ms]
+(pass) NotificacaoService > gera o assunto correto para cada tipo > proposta_status [0.09ms]
+(pass) NotificacaoService > gera o assunto correto para cada tipo > convite_orientacao [0.05ms]
+(pass) NotificacaoService > gera o assunto correto para cada tipo > convite_banca [0.22ms]
+(pass) NotificacaoService > registra a notificação como pendente com o id do e-mail [0.57ms]
+(pass) NotificacaoService > lista as pendentes da mais recente para a mais antiga e filtra por destinatário [4.38ms]
+(pass) NotificacaoService > mantém a notificação quando o serviço de e-mail falha (UC07 A1) [0.33ms]
+(pass) NotificacaoService > marcarNotificacaoLida > marca como lida e remove das pendentes [0.43ms]
+(pass) NotificacaoService > marcarNotificacaoLida > é idempotente: preserva a data da primeira leitura [2.55ms]
+(pass) NotificacaoService > marcarNotificacaoLida > rejeita notificação inexistente [0.29ms]
+(pass) NotificacaoService > marcarNotificacaoLida > rejeita notificação de outro usuário [0.29ms]
+(pass) NotificacaoService > reagendarEnvio > reenvia as falhas quando o provedor volta e ignora as já enviadas [0.68ms]
+(pass) NotificacaoService > reagendarEnvio > desiste após 3 tentativas [0.21ms]
+(pass) NotificacaoService > rejeita pré-condições violadas > e-mail vazio [0.09ms]
+(pass) NotificacaoService > rejeita pré-condições violadas > e-mail com formato inválido [0.07ms]
+(pass) NotificacaoService > rejeita pré-condições violadas > destinatário sem id válido [0.04ms]
+(pass) NotificacaoService > rejeita pré-condições violadas > tipo desconhecido [0.04ms]
+
+apps/api/src/modules/notificacao/repositorio.test.ts:
+(pass) RepositorioDrizzle (SQLite em memória) > salvar devolve o registro com id, datas e dados tipados preservados [3.17ms]
+(pass) RepositorioDrizzle (SQLite em memória) > buscarPorId devolve null para id inexistente [0.48ms]
+(pass) RepositorioDrizzle (SQLite em memória) > salvar com envio falho deixa enviadaEm nulo e guarda o erro [0.38ms]
+(pass) RepositorioDrizzle (SQLite em memória) > listarPendentes ordena da mais recente para a mais antiga e filtra por destinatário [1.44ms]
+(pass) RepositorioDrizzle (SQLite em memória) > marcarLida do dono grava lidaEm, é idempotente e some das pendentes [1.70ms]
+(pass) RepositorioDrizzle (SQLite em memória) > marcarLida devolve null para outro usuário ou id inexistente [1.24ms]
+(pass) RepositorioDrizzle (SQLite em memória) > listarComEnvioFalho respeita o máximo de tentativas e ordena da mais antiga [1.13ms]
+(pass) RepositorioDrizzle (SQLite em memória) > atualizarEnvio registra sucesso e falha de novas tentativas [1.60ms]
+(pass) RepositorioDrizzle (SQLite em memória) > atualizarEnvio de id inexistente lança erro [0.38ms]
+(pass) RepositorioMemoria > salvar devolve o registro com id, datas e dados tipados preservados [0.10ms]
+(pass) RepositorioMemoria > buscarPorId devolve null para id inexistente
+(pass) RepositorioMemoria > salvar com envio falho deixa enviadaEm nulo e guarda o erro [0.02ms]
+(pass) RepositorioMemoria > listarPendentes ordena da mais recente para a mais antiga e filtra por destinatário [0.09ms]
+(pass) RepositorioMemoria > marcarLida do dono grava lidaEm, é idempotente e some das pendentes [0.02ms]
+(pass) RepositorioMemoria > marcarLida devolve null para outro usuário ou id inexistente [0.04ms]
+(pass) RepositorioMemoria > listarComEnvioFalho respeita o máximo de tentativas e ordena da mais antiga [0.06ms]
+(pass) RepositorioMemoria > atualizarEnvio registra sucesso e falha de novas tentativas [0.04ms]
+(pass) RepositorioMemoria > atualizarEnvio de id inexistente lança erro [0.03ms]
+
+apps/api/src/modules/autenticacao/auth.test.ts:
+(pass) validarEmailInstitucional > aceita o domínio configurado e rejeita os demais [0.40ms]
+(pass) UC10 cadastrar > rejeita e-mail fora do domínio institucional (A2) [80.90ms]
+(pass) UC10 cadastrar > cadastro válido cria user, usuarios ligados e envia e-mail de confirmação [77.84ms]
+(pass) UC10 cadastrar > rejeita e-mail já cadastrado (A1) [0.36ms]
+(pass) UC10 cadastrar > rejeita perfil admin no autocadastro [64.26ms]
+(pass) UC11 autenticar > login antes de confirmar o e-mail é rejeitado (UC10 A3) [69.87ms]
+(pass) UC11 autenticar > confirmar o e-mail ativa a conta e registra em usuarios [11.48ms]
+2026-10-09T00:35:33.059Z WARN [Better Auth]: Invalid password
+(pass) UC11 autenticar > login com senha errada falha (A1) [68.47ms]
+(pass) UC11 autenticar > login válido devolve sessão com perfil e usuarioId [80.82ms]
+(pass) UC11 autenticar > sem sessão, obterSessao devolve null (A2) [0.15ms]
+(pass) exigirPerfil (guard do Elysia) > sem sessão responde 401 e não afeta rotas públicas [3.34ms]
+(pass) exigirPerfil (guard do Elysia) > perfil errado responde 403 e perfil certo recebe o usuário no contexto [72.68ms]
+
+apps/api/src/modules/monitor-prazos/service.test.ts:
+(pass) datas > diasAte conta dias-calendário no fuso de São Paulo [0.22ms]
+(pass) MonitorPrazosService.verificarPrazos > etapa sem entrega com prazo em 7 dias gera prazo_proximo ao aluno [4.65ms]
+(pass) MonitorPrazosService.verificarPrazos > etapa sem entrega com prazo em 2 dias gera prazo_proximo; em 5 dias não [2.33ms]
+(pass) MonitorPrazosService.verificarPrazos > etapa já entregue não gera alerta de prazo [1.38ms]
+(pass) MonitorPrazosService.verificarPrazos > etapa vencida sem entrega vira atrasada e notifica aluno e orientador [2.69ms]
+(pass) MonitorPrazosService.verificarPrazos > entrega pendente já registrada é atualizada para atrasada [3.03ms]
+(pass) MonitorPrazosService.verificarPrazos > etapa vencida mas entregue (em revisão) não é atraso [1.45ms]
+(pass) MonitorPrazosService.verificarPrazos > feedback não lido há mais de 2 dias gera feedback_disponivel; recente não [2.63ms]
+(pass) MonitorPrazosService.verificarPrazos > feedback já lido não gera notificação [1.56ms]
+305 |       new Date(AGORA.getTime() + 3 * 60 * 60 * 1000),
+306 |     );
+307 |
+308 |     expect(primeira).toMatchObject({ atrasos: 1, prazosProximos: 1, notificacoesGeradas: 3 });
+309 |     // As situações continuam detectadas, mas nada novo é gerado.
+310 |     expect(segunda).toMatchObject({ atrasos: 1, prazosProximos: 1, notificacoesGeradas: 0 });
+                          ^
+error: expect(received).toMatchObject(expected)
+
+  {
+    "atrasos": 1,
+-   "notificacoesGeradas": 0,
++   "executadaEm": "2026-09-17T16:00:00.000Z",
++   "feedbacksNaoLidos": 0,
++   "notificacoesGeradas": 3,
+    "prazosProximos": 1,
+  }
+
+- Expected  - 1
++ Received  + 3
+
+      at <anonymous> (/Users/edson/Desktop/code_local/Top_Avan_Eng_Soft/OrientaTCC/apps/api/src/modules/monitor-prazos/service.test.ts:310:21)
+(fail) MonitorPrazosService.verificarPrazos > é idempotente no mesmo dia: a segunda execução não duplica notificações [7.87ms]
+(pass) MonitorPrazosService.verificarPrazos > no dia seguinte o atraso volta a ser notificado [4.01ms]
+(pass) MonitorPrazosService.verificarPrazos > ignora cronograma não publicado e trabalho concluído [1.50ms]
+
+1 tests failed:
+(fail) MonitorPrazosService.verificarPrazos > é idempotente no mesmo dia: a segunda execução não duplica notificações [7.87ms]
+
+ 76 pass
+ 1 fail
+ 241 expect() calls
+Ran 77 tests across 5 files. [1152.00ms]
+error: script "test:api" exited with code 1

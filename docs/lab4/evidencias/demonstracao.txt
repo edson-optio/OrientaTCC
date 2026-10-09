@@ -1,0 +1,8 @@
+$ bun scripts/demo-lab4.ts
+1. Aluno envia versão 1 → entregue
+2. Orientador consulta pendentes: 1
+3. Feedback solicita revisão → em_revisao
+4. Nova versão 2 → aprovada
+5. Histórico preservado: [ 1, 2 ]
+6. Feedbacks: [ "revisar", "aprovado" ]
+7. Leitura registrada: 2026-10-08T23:00:00.000Z

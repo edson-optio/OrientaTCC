@@ -1,0 +1,25 @@
+$ bun test apps/api/src/modules/lab/componentes.test.ts
+bun test v1.3.11 (af24e281)
+
+apps/api/src/modules/lab/componentes.test.ts:
+(pass) Entregas > preserva arquivo e incrementa versões no prazo [46.75ms]
+(pass) Entregas > aceita entrega atrasada e respeita fuso de São Paulo [9.38ms]
+(pass) Entregas > rejeita arquivo inválido sem criar versão [8.46ms]
+(pass) Entregas > rejeita terceiro e professor na submissão [8.71ms]
+(pass) Entregas > rejeita etapa inexistente e cronograma não publicado [4.10ms]
+(pass) Entregas > rejeita submissão em trabalho concluído [3.57ms]
+(pass) Feedback > rejeita parecer inválido, comentário vazio e versão inexistente [3.96ms]
+(pass) Feedback > somente orientador avalia e somente aluno marca como lido [8.12ms]
+(pass) Feedback > impede avaliação duplicada [6.90ms]
+(pass) Integração Entregas e Feedback > submissão → revisão → nova versão → aprovação → leitura [8.54ms]
+(pass) Integração Entregas e Feedback > versão antiga não muda estado e rollback remove feedback [6.30ms]
+(pass) Integração Entregas e Feedback > falha após atualizar situação reverte ambas as gravações [6.63ms]
+(pass) Integração Entregas e Feedback > HTTP autenticação, validação e integração dos serviços reais [35.18ms]
+(pass) Responsabilidades revisadas do Lab 3 > Cronograma determina vencimento no limite do dia e rejeita data inválida [4.84ms]
+(pass) Responsabilidades revisadas do Lab 3 > Entregas usa a decisão de Cronograma sem reinterpretar a data [4.49ms]
+(pass) Responsabilidades revisadas do Lab 3 > parecer de revisão altera a entrega e preserva o prazo do cronograma [6.85ms]
+
+ 16 pass
+ 0 fail
+ 47 expect() calls
+Ran 16 tests across 1 file. [466.00ms]

@@ -1,0 +1,23 @@
+@startuml
+left to right direction
+component "Entregas" as E
+component "Feedback" as F
+component "CronogramaConsulta\n(adaptador parcial)" as C
+interface IEntrega
+interface IFeedback
+interface ICronograma
+E -- IEntrega
+F -- IFeedback
+C -- ICronograma
+F ..> IEntrega : requer consultarVersao\ne atualizarSituacao
+E ..> ICronograma : requer consultarEtapaVigente\nretorna prazoVencido
+note bottom of IEntrega
+  Extensão do Lab 3: atualizarSituacao
+  Entregas é o dono da situação da entrega.
+  Feedback registra o parecer e solicita a transição.
+end note
+note bottom of C
+  Cronograma decide se o prazo venceu.
+  Não altera estados de avaliação.
+end note
+@enduml

@@ -1,0 +1,77 @@
+@startuml
+scale 2
+left to right direction
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam componentStyle uml2
+skinparam nodesep 20
+skinparam ranksep 30
+skinparam component {
+  BackgroundColor #FFFFFF
+  BorderColor #333333
+}
+skinparam interface {
+  BackgroundColor #FFFFFF
+  BorderColor #333333
+}
+skinparam ArrowColor #333333
+
+component "Componente\nAluno" as CAlu
+component "Componente\nOrientador" as COri
+component "Componente\nAutenticação\n<<reuso: Better Auth>>" as CAut
+component "Componente\nTCC" as CTcc
+component "Componente\nProposta" as CPro
+component "Componente\nCronograma" as CCro
+component "Componente\nEntregas" as CEnt
+component "Componente\nFeedback" as CFbk
+component "Componente\nReuniões" as CReu
+
+interface IAluno
+interface IOrientador
+interface IAutenticacao
+interface IProposta
+interface ITCC
+interface ICronograma
+interface IEntrega
+interface IFeedback
+interface IReuniao
+
+' fornecidas
+CAlu -- IAluno
+COri -- IOrientador
+CAut -- IAutenticacao
+CTcc -- ITCC
+CPro -- IProposta
+CCro -- ICronograma
+CEnt -- IEntrega
+CFbk -- IFeedback
+CReu -- IReuniao
+
+' requeridas (socket no lado do componente que requer)
+IAluno --( CPro
+IOrientador --( CPro
+ITCC --( CPro
+ITCC --( CCro
+ICronograma --( CEnt
+IEntrega --( CFbk
+IAluno --( CReu
+IOrientador --( CReu
+note bottom of CPro
+  submeterProposta, consultarProposta, listarPropostas
+  verificarLimiteOrientandos, responderProposta
+end note
+note bottom of CTcc
+  consultarTrabalho, listarOrientandos
+  registrarResultadoFinal
+  criarTrabalhoDePropostaAceita (operação interna proposta)
+end note
+note bottom of CCro
+  Dono das datas e do cálculo de vencimento.
+end note
+note bottom of CEnt
+  Dono da situação da entrega por etapa.
+  Feedback solicita transição por IEntrega.
+end note
+@enduml
