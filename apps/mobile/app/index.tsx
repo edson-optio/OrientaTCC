@@ -1,33 +1,37 @@
 import { useRouter, type Href } from 'expo-router';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 
 import { StatusApi } from '../src/components/StatusApi';
+import { Avatar } from '../src/components/ui/Avatar';
+import { Icone } from '../src/components/ui/Icone';
+import { Secao, Tela } from '../src/components/ui/Tela';
+import { Texto } from '../src/components/ui/Texto';
 import { USUARIOS_SEED, useSessao, type Usuario } from '../src/lib/sessao';
+import { cores, fontes } from '../src/tema/tokens';
 
 /**
  * Tela de entrada.
  *
- * O seletor de perfil abaixo e PROVISORIO, apenas para desenvolvimento: ele
- * grava no contexto de sessao um dos usuarios do seed da API e navega para o
- * grupo do perfil. Sera substituido pelo login com Better Auth (UC11), que
- * carregara o perfil e as permissoes do usuario autenticado.
+ * O seletor de perfil e PROVISORIO, apenas para desenvolvimento: grava no
+ * contexto de sessao um dos usuarios do seed da API e navega para o grupo do
+ * perfil. Sera substituido pelo login com Better Auth.
  */
 const PERFIS: { rotulo: string; descricao: string; usuario: Usuario; href: Href }[] = [
   {
     rotulo: 'Aluno',
-    descricao: 'Submete proposta e entregas, consulta cronograma e feedback',
+    descricao: 'Proposta, cronograma, entregas e pareceres',
     usuario: USUARIOS_SEED.aluno,
-    href: '/(aluno)/proposta',
+    href: '/(aluno)/(tabs)/inicio',
   },
   {
     rotulo: 'Orientador',
-    descricao: 'Responde propostas, define cronograma, avalia e conclui trabalhos',
+    descricao: 'Propostas recebidas, avaliações e orientandos',
     usuario: USUARIOS_SEED.professor,
-    href: '/(orientador)/(tabs)/propostas',
+    href: '/(orientador)/(tabs)/avaliar',
   },
   {
     rotulo: 'Administrador',
-    descricao: 'Gerencia usuarios, cursos, semestres e parametros',
+    descricao: 'Usuários, cursos e parâmetros',
     usuario: USUARIOS_SEED.admin,
     href: '/(admin)/usuarios',
   },
@@ -38,85 +42,103 @@ export default function TelaEntrada() {
   const { entrar } = useSessao();
 
   return (
-    <ScrollView contentContainerStyle={estilos.container}>
-      <Text style={estilos.titulo}>OrientaTCC</Text>
-      <Text style={estilos.subtitulo}>Gestao de Trabalhos de Conclusao de Curso</Text>
+    <Tela estiloConteudo={estilos.conteudo}>
+      <View style={estilos.marca}>
+        <Texto variante="rotulo">Semestre 2026.2</Texto>
+        <View style={estilos.logotipo}>
+          <Texto style={estilos.logo}>Orienta</Texto>
+          <View style={estilos.grifo}>
+            <Texto style={estilos.logo}>TCC</Texto>
+          </View>
+        </View>
+        <Texto variante="corpo" cor={cores.suave} style={estilos.slogan}>
+          O caderno de orientação do seu trabalho de conclusão: da proposta à versão final, com cada parecer
+          guardado.
+        </Texto>
+      </View>
 
-      <View style={estilos.secao}>
-        <Text style={estilos.rotuloSecao}>Entrar como (provisorio)</Text>
-        {PERFIS.map((perfil) => (
+      <Secao rotulo="Entrar como · modo de desenvolvimento">
+        {PERFIS.map((perfil, indice) => (
           <Pressable
             key={perfil.rotulo}
+            accessibilityRole="button"
+            accessibilityLabel={`Entrar como ${perfil.rotulo}, ${perfil.usuario.nome}`}
             onPress={() => {
               entrar(perfil.usuario);
               router.push(perfil.href);
             }}
-            style={({ pressed }) => [estilos.botao, pressed && estilos.botaoPressionado]}
+            style={({ pressed }) => [
+              estilos.perfil,
+              indice < PERFIS.length - 1 && estilos.perfilBorda,
+              pressed && { opacity: 0.6 },
+            ]}
           >
-            <Text style={estilos.botaoTitulo}>{perfil.rotulo}</Text>
-            <Text style={estilos.botaoDescricao}>{perfil.descricao}</Text>
-            <Text style={estilos.botaoUsuario}>
-              {perfil.usuario.nome} (id {perfil.usuario.id}, seed)
-            </Text>
+            <Avatar nome={perfil.usuario.nome} tamanho={48} escuro={indice === 0} />
+            <View style={estilos.perfilTextos}>
+              <Texto variante="corpoGrande">{perfil.rotulo}</Texto>
+              <Texto variante="legenda">{perfil.descricao}</Texto>
+              <Texto variante="rotulo" style={estilos.perfilUsuario}>
+                {perfil.usuario.nome}
+              </Texto>
+            </View>
+            <Icone nome="avancar" tamanho={18} cor="#8A8A8A" />
           </Pressable>
         ))}
-      </View>
+      </Secao>
 
-      <View style={estilos.secao}>
-        <Text style={estilos.rotuloSecao}>Status da API</Text>
+      <Secao rotulo="Status da API">
         <StatusApi />
-      </View>
-    </ScrollView>
+      </Secao>
+    </Tela>
   );
 }
 
 const estilos = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    backgroundColor: '#fff',
-    alignItems: 'stretch',
-    padding: 24,
-    gap: 24,
+  conteudo: {
+    gap: 40,
+    paddingTop: 72,
   },
-  titulo: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    textAlign: 'center',
+  marca: {
+    gap: 14,
   },
-  subtitulo: {
-    fontSize: 14,
-    color: '#666',
-    textAlign: 'center',
-    marginTop: -16,
+  logotipo: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
-  secao: {
-    gap: 12,
+  logo: {
+    fontFamily: fontes.display,
+    fontSize: 52,
+    lineHeight: 60,
+    letterSpacing: -1.8,
+    color: cores.tinta,
   },
-  rotuloSecao: {
-    fontSize: 12,
-    color: '#999',
-    textTransform: 'uppercase',
-    letterSpacing: 1,
+  grifo: {
+    backgroundColor: cores.grifo,
+    paddingHorizontal: 6,
+    marginLeft: 2,
+    transform: [{ rotate: '-1.5deg' }],
   },
-  botao: {
-    backgroundColor: '#f2f5f9',
-    borderRadius: 12,
-    padding: 16,
-    gap: 4,
+  slogan: {
+    fontSize: 17,
+    lineHeight: 25,
+    maxWidth: 320,
   },
-  botaoPressionado: {
-    backgroundColor: '#e1e8f0',
+  perfil: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 14,
+    paddingVertical: 16,
   },
-  botaoTitulo: {
-    fontSize: 18,
-    fontWeight: '600',
+  perfilBorda: {
+    borderBottomWidth: 1,
+    borderBottomColor: cores.linha,
   },
-  botaoDescricao: {
-    fontSize: 13,
-    color: '#555',
+  perfilTextos: {
+    flex: 1,
+    gap: 2,
   },
-  botaoUsuario: {
-    fontSize: 12,
-    color: '#888',
+  perfilUsuario: {
+    marginTop: 4,
+    fontSize: 11,
   },
 });

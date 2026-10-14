@@ -1,39 +1,25 @@
-import { Tabs } from 'expo-router';
+import { Tabs } from 'expo-router/js-tabs';
 
-import { BotaoNotificacoes } from '../../../src/components/BotaoNotificacoes';
-import { IconeTab } from '../../../src/components/IconeTab';
+import { BarraAbas } from '../../../src/components/ui/BarraAbas';
+import { aguardandoParecer, useDemo } from '../../../src/lib/demo';
 
-/** Abas do perfil Orientador (UC02, UC05 e UC09). */
+/** Abas do perfil Orientador (UC02, UC05 e UC08). */
 export default function AbasOrientador() {
+  const { orientandosAtivos, estado } = useDemo();
+  const paraAvaliar = orientandosAtivos.flatMap((t) => t.etapas).filter(aguardandoParecer).length;
+  const propostasNovas = estado.propostasRecebidas.filter((p) => p.status === 'aguardando_orientador').length;
+
   return (
-    <Tabs
-      screenOptions={{
-        headerTitleAlign: 'center',
-        tabBarActiveTintColor: '#1f6feb',
-        headerRight: () => <BotaoNotificacoes />,
-      }}
-    >
+    <Tabs tabBar={(props) => <BarraAbas {...props} />} screenOptions={{ headerShown: false }}>
+      <Tabs.Screen
+        name="avaliar"
+        options={{ title: 'Início', tabBarBadge: paraAvaliar > 0 ? paraAvaliar : undefined }}
+      />
       <Tabs.Screen
         name="propostas"
-        options={{
-          title: 'Propostas',
-          tabBarIcon: ({ color }) => <IconeTab simbolo="📋" color={color} />,
-        }}
+        options={{ title: 'Propostas', tabBarBadge: propostasNovas > 0 ? propostasNovas : undefined }}
       />
-      <Tabs.Screen
-        name="orientandos"
-        options={{
-          title: 'Orientandos',
-          tabBarIcon: ({ color }) => <IconeTab simbolo="👥" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="entregas"
-        options={{
-          title: 'Entregas',
-          tabBarIcon: ({ color }) => <IconeTab simbolo="📝" color={color} />,
-        }}
-      />
+      <Tabs.Screen name="orientandos" options={{ title: 'Orientandos' }} />
     </Tabs>
   );
 }

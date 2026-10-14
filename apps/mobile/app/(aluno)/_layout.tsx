@@ -1,46 +1,16 @@
-import { Tabs } from 'expo-router';
+import { Stack } from 'expo-router';
 
-import { BotaoNotificacoes } from '../../src/components/BotaoNotificacoes';
-import { IconeTab } from '../../src/components/IconeTab';
+import { cores } from '../../src/tema/tokens';
 
-/** Abas do perfil Aluno (UC01, UC04 e UC06). */
+/**
+ * Perfil Aluno: as abas em (tabs) e o detalhe da entrega de uma etapa
+ * (entrega/[etapaId]) empilhado por cima, fora das abas.
+ */
 export default function LayoutAluno() {
   return (
-    <Tabs
-      screenOptions={{
-        headerTitleAlign: 'center',
-        tabBarActiveTintColor: '#1f6feb',
-        headerRight: () => <BotaoNotificacoes />,
-      }}
-    >
-      <Tabs.Screen
-        name="proposta"
-        options={{
-          title: 'Proposta',
-          tabBarIcon: ({ color }) => <IconeTab simbolo="💡" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="meu-trabalho"
-        options={{
-          title: 'Meu trabalho',
-          tabBarIcon: ({ color }) => <IconeTab simbolo="📘" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="entregas"
-        options={{
-          title: 'Entregas',
-          tabBarIcon: ({ color }) => <IconeTab simbolo="📤" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="cronograma"
-        options={{
-          title: 'Cronograma',
-          tabBarIcon: ({ color }) => <IconeTab simbolo="📅" color={color} />,
-        }}
-      />
-    </Tabs>
+    <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: cores.fundo } }}>
+      <Stack.Screen name="(tabs)" />
+      <Stack.Screen name="entrega/[etapaId]" />
+    </Stack>
   );
 }
