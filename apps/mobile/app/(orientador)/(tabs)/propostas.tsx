@@ -1,96 +1,131 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { useRouter } from 'expo-router';
+import { Pressable, StyleSheet, View } from 'react-native';
 
-import { TelaPlaceholder } from '../../../src/components/TelaPlaceholder';
+import { Avatar } from '../../../src/components/ui/Avatar';
+import { Chip } from '../../../src/components/ui/Chip';
+import { Cabecalho, Secao, Tela } from '../../../src/components/ui/Tela';
+import { Texto } from '../../../src/components/ui/Texto';
+import { tempoDecorrido } from '../../../src/lib/datas';
+import { STATUS_PROPOSTA, type Proposta } from '../../../src/lib/dominio';
+import { LIMITE_ORIENTANDOS, useDemo } from '../../../src/lib/demo';
+import { cores, raio } from '../../../src/tema/tokens';
 
-/** UC02 Responder proposta de orientacao. */
+/** Propostas recebidas (UC02): novas primeiro, respondidas abaixo. */
 export default function PropostasOrientador() {
-  return (
-    <TelaPlaceholder
-      titulo="Propostas recebidas"
-      casoDeUso="UC02 Responder proposta de orientacao"
-      descricao="Aqui o professor lista as propostas recebidas, consulta os detalhes e aceita, devolve para ajustes ou recusa com justificativa. O aceite so e permitido se o limite de orientandos nao foi atingido; ao aceitar, o sistema cria o trabalho 'Em orientacao' e vincula a orientacao."
-      operacoes={[
-        'listarPropostasRecebidas(professorId)',
-        'consultarProposta(propostaId)',
-        'contarOrientandos(professorId)',
-        'obterParametro("limiteOrientandos")',
-        'verificarLimiteOrientandos(professorId)',
-        'aceitarProposta(propostaId)',
-        'criarTrabalho(propostaId)',
-        'vincularOrientador(trabalhoId, professorId)',
-        'devolverProposta(propostaId, justificativa)',
-        'recusarProposta(propostaId, justificativa)',
-        'enviarNotificacao(destinatarioId, tipo, conteudo)',
-      ]}
-    >
-      <View style={estilos.avisoLimite}>
-        <Text style={estilos.avisoTexto}>
-          Limite de orientandos: 0 de 5 (vira de contarOrientandos + obterParametro)
-        </Text>
-      </View>
+  const router = useRouter();
+  const { estado, orientandosAtivos } = useDemo();
+  const novas = estado.propostasRecebidas.filter((p) => p.status === 'aguardando_orientador');
+  const respondidas = estado.propostasRecebidas.filter((p) => p.status !== 'aguardando_orientador');
+  const vagas = LIMITE_ORIENTANDOS - orientandosAtivos.length;
 
-      <View style={estilos.cartao}>
-        <Text style={estilos.cartaoTitulo}>Exemplo de proposta</Text>
-        <Text style={estilos.cartaoTexto}>Aluno · Tema · Area · Aguardando orientador</Text>
-        <View style={estilos.acoes}>
-          <Botao rotulo="Aceitar" cor="#1a7f37" />
-          <Botao rotulo="Ajustes" cor="#9a6700" />
-          <Botao rotulo="Recusar" cor="#cf222e" />
+  return (
+    <Tela comAbas>
+      <Cabecalho titulo="Propostas" sobretitulo={`${novas.length} aguardando resposta`} />
+
+      <View style={estilos.vagas} accessible accessibilityLabel={`${orientandosAtivos.length} de ${LIMITE_ORIENTANDOS} vagas ocupadas`}>
+        <View style={{ flex: 1, gap: 2 }}>
+          <Texto variante="corpoForte">
+            {vagas > 0 ? `${vagas} ${vagas === 1 ? 'vaga disponível' : 'vagas disponíveis'}` : 'Limite de orientandos atingido'}
+          </Texto>
+          <Texto variante="legenda">
+            {orientandosAtivos.length} de {LIMITE_ORIENTANDOS} orientandos neste semestre
+          </Texto>
+        </View>
+        <View style={estilos.pontos}>
+          {Array.from({ length: LIMITE_ORIENTANDOS }, (_, i) => (
+            <View key={i} style={[estilos.ponto, i < orientandosAtivos.length && estilos.pontoCheio]} />
+          ))}
         </View>
       </View>
-    </TelaPlaceholder>
+
+      <Secao rotulo="Novas">
+        {novas.length === 0 ? (
+          <Texto variante="corpo" cor={cores.suave} style={{ paddingVertical: 12 }}>
+            Nenhuma proposta nova. Quando um aluno enviar uma proposta para você, ela aparece aqui.
+          </Texto>
+        ) : (
+          novas.map((p, i) => <CartaoProposta key={p.id} proposta={p} ultima={i === novas.length - 1} abrir={() => router.push(`/(orientador)/proposta/${p.id}`)} />)
+        )}
+      </Secao>
+
+      {respondidas.length > 0 && (
+        <Secao rotulo="Respondidas">
+          {respondidas.map((p, i) => (
+            <CartaoProposta key={p.id} proposta={p} ultima={i === respondidas.length - 1} abrir={() => router.push(`/(orientador)/proposta/${p.id}`)} />
+          ))}
+        </Secao>
+      )}
+    </Tela>
   );
 }
 
-function Botao({ rotulo, cor }: { rotulo: string; cor: string }) {
+function CartaoProposta({ proposta, abrir, ultima }: { proposta: Proposta; abrir: () => void; ultima: boolean }) {
+  const status = STATUS_PROPOSTA[proposta.status];
+  const nova = proposta.status === 'aguardando_orientador';
   return (
-    <Pressable style={({ pressed }) => [estilos.botao, { borderColor: cor }, pressed && estilos.botaoPressionado]}>
-      <Text style={[estilos.botaoTexto, { color: cor }]}>{rotulo}</Text>
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={`Proposta de ${proposta.aluno}: ${proposta.tema}. ${status.rotulo}`}
+      onPress={abrir}
+      style={({ pressed }) => [estilos.cartao, !ultima && estilos.borda, pressed && { opacity: 0.6 }]}
+    >
+      <View style={estilos.topo}>
+        <Avatar nome={proposta.aluno} tamanho={32} />
+        <View style={{ flex: 1 }}>
+          <Texto variante="corpoForte" style={{ fontSize: 15 }}>
+            {proposta.aluno}
+          </Texto>
+          <Texto variante="legenda" style={{ fontSize: 12 }}>
+            {proposta.curso} · {tempoDecorrido(proposta.submetidaEm)}
+          </Texto>
+        </View>
+        {!nova && <Chip pequeno rotulo={status.rotulo} tom={status.tom} />}
+      </View>
+      <Texto variante="subtitulo" style={!nova && { color: cores.suave }}>
+        {proposta.tema}
+      </Texto>
+      <Texto variante="rotulo" style={{ fontSize: 11 }}>
+        {proposta.area}
+      </Texto>
     </Pressable>
   );
 }
 
 const estilos = StyleSheet.create({
-  avisoLimite: {
-    backgroundColor: '#fff8e1',
-    borderRadius: 12,
-    padding: 12,
+  vagas: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 16,
+    padding: 16,
+    borderRadius: raio.md,
+    backgroundColor: cores.superficie,
   },
-  avisoTexto: {
-    fontSize: 13,
-    color: '#8a6d00',
+  pontos: {
+    flexDirection: 'row',
+    gap: 5,
+  },
+  ponto: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    borderWidth: 1.5,
+    borderColor: cores.linhaForte,
+  },
+  pontoCheio: {
+    backgroundColor: cores.tinta,
+    borderColor: cores.tinta,
   },
   cartao: {
-    borderWidth: 1,
-    borderColor: '#d0d7de',
-    borderRadius: 12,
-    padding: 12,
-    gap: 8,
+    gap: 10,
+    paddingVertical: 18,
   },
-  cartaoTitulo: {
-    fontSize: 16,
-    fontWeight: '600',
+  borda: {
+    borderBottomWidth: 1,
+    borderBottomColor: cores.linha,
   },
-  cartaoTexto: {
-    fontSize: 13,
-    color: '#555',
-  },
-  acoes: {
+  topo: {
     flexDirection: 'row',
-    gap: 8,
-  },
-  botao: {
-    flex: 1,
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingVertical: 8,
     alignItems: 'center',
-  },
-  botaoPressionado: {
-    opacity: 0.6,
-  },
-  botaoTexto: {
-    fontSize: 14,
-    fontWeight: '600',
+    gap: 10,
   },
 });

@@ -5,7 +5,7 @@
  * entrada. Sera substituido pela sessao do Better Auth (UC11), que carregara o
  * usuario autenticado e as suas permissoes a partir da API.
  */
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 
 export type Perfil = 'aluno' | 'professor' | 'admin';
 
@@ -49,4 +49,16 @@ export function useSessao(): Sessao {
     throw new Error('useSessao deve ser usado dentro de SessaoProvider');
   }
   return sessao;
+}
+
+/**
+ * Garante uma sessao ao abrir um grupo de perfil diretamente (deep link ou
+ * recarga), usando o usuario do seed daquele perfil. Assim o cabecalho sempre
+ * mostra o avatar com a opcao de trocar de perfil. Provisorio, como o seletor.
+ */
+export function useSessaoDoPerfil(perfil: Perfil) {
+  const { usuario, entrar } = useSessao();
+  useEffect(() => {
+    if (!usuario) entrar(USUARIOS_SEED[perfil]);
+  }, [usuario, entrar, perfil]);
 }

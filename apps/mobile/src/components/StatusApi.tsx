@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
 import { apiUrl } from '../lib/api';
+import { cores, raio } from '../tema/tokens';
+import { Texto } from './ui/Texto';
 
 type EstadoHealth =
   | { tipo: 'carregando' }
-  | { tipo: 'ok'; dados: unknown }
+  | { tipo: 'ok'; servico: string }
   | { tipo: 'erro'; mensagem: string };
 
 /**
- * Consulta GET /health da API e mostra o resultado.
+ * Consulta GET /health da API e mostra o resultado em uma linha.
  * Serve para confirmar, durante o desenvolvimento, que o app enxerga a API.
  */
 export function StatusApi() {
@@ -24,9 +26,9 @@ export function StatusApi() {
         if (!resposta.ok) {
           throw new Error(`HTTP ${resposta.status}`);
         }
-        const dados: unknown = await resposta.json();
+        const dados = (await resposta.json()) as { service?: string; status?: string };
         if (!cancelado) {
-          setEstado({ tipo: 'ok', dados });
+          setEstado({ tipo: 'ok', servico: dados.service ?? dados.status ?? 'ok' });
         }
       } catch (erro) {
         if (!cancelado) {
@@ -43,36 +45,39 @@ export function StatusApi() {
     };
   }, []);
 
-  return (
-    <View style={estilos.container}>
-      <Text style={estilos.url}>API: {apiUrl()}</Text>
+  const cor = estado.tipo === 'ok' ? cores.aprovada : estado.tipo === 'erro' ? cores.atrasada : cores.suave;
 
-      {estado.tipo === 'carregando' && <ActivityIndicator />}
-      {estado.tipo === 'ok' && (
-        <Text style={estilos.status}>{JSON.stringify(estado.dados, null, 2)}</Text>
+  return (
+    <View style={estilos.container} accessibilityLiveRegion="polite">
+      {estado.tipo === 'carregando' ? (
+        <ActivityIndicator size="small" color={cores.suave} />
+      ) : (
+        <View style={[estilos.ponto, { backgroundColor: cor }]} />
       )}
-      {estado.tipo === 'erro' && (
-        <Text style={[estilos.status, estilos.erro]}>Erro: {estado.mensagem}</Text>
-      )}
+      <View style={{ flex: 1, gap: 2 }}>
+        <Texto variante="corpoForte" style={{ fontSize: 15 }}>
+          {estado.tipo === 'ok' ? `Conectado · ${estado.servico}` : estado.tipo === 'erro' ? 'Sem conexão' : 'Verificando…'}
+        </Texto>
+        <Texto variante="legenda" numberOfLines={2}>
+          {estado.tipo === 'erro' ? `${apiUrl()} · ${estado.mensagem}` : apiUrl()}
+        </Texto>
+      </View>
     </View>
   );
 }
 
 const estilos = StyleSheet.create({
   container: {
+    flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: 12,
+    padding: 14,
+    borderRadius: raio.md,
+    backgroundColor: cores.superficie,
   },
-  url: {
-    fontSize: 13,
-    color: '#666',
-  },
-  status: {
-    fontFamily: 'monospace',
-    fontSize: 13,
-    textAlign: 'center',
-  },
-  erro: {
-    color: '#b00020',
+  ponto: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
   },
 });

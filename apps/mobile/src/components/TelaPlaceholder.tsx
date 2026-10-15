@@ -1,5 +1,10 @@
 import type { ReactNode } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+
+import { cores, fontes, raio } from '../tema/tokens';
+import { Grifo } from './ui/Chip';
+import { Cabecalho, Secao, Tela } from './ui/Tela';
+import { Texto } from './ui/Texto';
 
 type Props = {
   /** Titulo exibido na tela. */
@@ -8,90 +13,55 @@ type Props = {
   casoDeUso?: string;
   /** Uma frase explicando o que a tela fara quando for implementada. */
   descricao: string;
-  /**
-   * Operacoes identificadas na secao 2 do documento de modelagem para o caso
-   * de uso desta tela. Servem de guia para a implementacao.
-   */
+  /** Operacoes da modelagem para o caso de uso desta tela. */
   operacoes?: string[];
   /** Conteudo extra (formularios ou listas provisorias). */
   children?: ReactNode;
 };
 
 /**
- * Tela provisoria usada enquanto as funcionalidades nao sao implementadas.
- * Mostra o titulo, o caso de uso, a descricao e a lista de operacoes.
+ * Tela provisoria (perfil admin) no novo design: titulo editorial, descricao
+ * e as operacoes previstas, marcada com o grifo "EM CONSTRUÇÃO".
  */
 export function TelaPlaceholder({ titulo, casoDeUso, descricao, operacoes, children }: Props) {
   return (
-    <ScrollView contentContainerStyle={estilos.container}>
-      <Text style={estilos.titulo}>{titulo}</Text>
-      {casoDeUso && <Text style={estilos.casoDeUso}>{casoDeUso}</Text>}
-      <Text style={estilos.descricao}>{descricao}</Text>
+    <Tela comAbas>
+      <Cabecalho titulo={titulo} sobretitulo={casoDeUso} />
+      <View style={{ gap: 12, alignItems: 'flex-start' }}>
+        <Grifo rotulo="EM CONSTRUÇÃO" />
+        <Texto variante="corpo" cor={cores.suave} style={{ fontSize: 16, lineHeight: 24 }}>
+          {descricao}
+        </Texto>
+      </View>
 
       {children}
 
       {operacoes && operacoes.length > 0 && (
-        <View style={estilos.bloco}>
-          <Text style={estilos.rotuloBloco}>Operacoes (secao 2 da modelagem)</Text>
-          {operacoes.map((operacao) => (
-            <Text key={operacao} style={estilos.operacao}>
-              {'•'} {operacao}
-            </Text>
-          ))}
-        </View>
+        <Secao rotulo="Operações previstas">
+          <View style={estilos.bloco}>
+            {operacoes.map((operacao) => (
+              <Texto key={operacao} style={estilos.operacao}>
+                {operacao}
+              </Texto>
+            ))}
+          </View>
+        </Secao>
       )}
-
-      <Text style={estilos.aviso}>Em construcao</Text>
-    </ScrollView>
+    </Tela>
   );
 }
 
 const estilos = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    backgroundColor: '#fff',
-    padding: 24,
-    gap: 12,
-  },
-  titulo: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  casoDeUso: {
-    fontSize: 13,
-    color: '#1f6feb',
-    fontWeight: '600',
-    marginTop: -8,
-  },
-  descricao: {
-    fontSize: 16,
-    color: '#444',
-    lineHeight: 22,
-  },
   bloco: {
-    backgroundColor: '#f2f5f9',
-    borderRadius: 12,
+    backgroundColor: cores.superficie,
+    borderRadius: raio.md,
     padding: 16,
-    gap: 6,
-  },
-  rotuloBloco: {
-    fontSize: 12,
-    color: '#666',
-    textTransform: 'uppercase',
-    letterSpacing: 1,
-    marginBottom: 4,
+    gap: 8,
   },
   operacao: {
-    fontFamily: 'monospace',
+    fontFamily: fontes.mono,
     fontSize: 13,
-    color: '#222',
-  },
-  aviso: {
-    marginTop: 8,
-    fontSize: 12,
-    color: '#999',
-    textTransform: 'uppercase',
-    letterSpacing: 1,
-    textAlign: 'center',
+    lineHeight: 18,
+    color: cores.tinta,
   },
 });

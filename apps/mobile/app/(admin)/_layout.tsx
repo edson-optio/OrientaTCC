@@ -1,32 +1,16 @@
-import { Tabs } from 'expo-router';
+import { Tabs } from 'expo-router/js-tabs';
 
-import { IconeTab } from '../../src/components/IconeTab';
+import { useSessaoDoPerfil } from '../../src/lib/sessao';
+import { BarraAbas } from '../../src/components/ui/BarraAbas';
 
-/** Abas do perfil Administrador (UC12). */
+/** Abas do perfil Administrador (cadastros e parametros). */
 export default function LayoutAdmin() {
+  useSessaoDoPerfil('admin');
   return (
-    <Tabs screenOptions={{ headerTitleAlign: 'center', tabBarActiveTintColor: '#1f6feb' }}>
-      <Tabs.Screen
-        name="usuarios"
-        options={{
-          title: 'Usuarios',
-          tabBarIcon: ({ color }) => <IconeTab simbolo="👤" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="cursos"
-        options={{
-          title: 'Cursos',
-          tabBarIcon: ({ color }) => <IconeTab simbolo="🎓" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="parametros"
-        options={{
-          title: 'Parametros',
-          tabBarIcon: ({ color }) => <IconeTab simbolo="⚙️" color={color} />,
-        }}
-      />
+    <Tabs tabBar={(props) => <BarraAbas {...props} />} screenOptions={{ headerShown: false }}>
+      <Tabs.Screen name="usuarios" options={{ title: 'Usuários' }} />
+      <Tabs.Screen name="cursos" options={{ title: 'Cursos' }} />
+      <Tabs.Screen name="parametros" options={{ title: 'Parâmetros' }} />
     </Tabs>
   );
 }

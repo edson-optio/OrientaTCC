@@ -1,14 +1,20 @@
 import { Stack } from 'expo-router';
 
+import { useSessaoDoPerfil } from '../../src/lib/sessao';
+import { cores } from '../../src/tema/tokens';
+
 /**
- * Perfil Orientador: um Stack com as abas em (tabs) e a tela de detalhe do
- * trabalho (trabalho/[id]) fora das abas, aberta a partir do painel.
+ * Perfil Orientador: as abas em (tabs) e, empilhadas por cima, as telas de
+ * avaliacao de uma entrega, detalhe de proposta e detalhe do trabalho.
  */
 export default function LayoutOrientador() {
+  useSessaoDoPerfil('professor');
   return (
-    <Stack screenOptions={{ headerTitleAlign: 'center' }}>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="trabalho/[id]" options={{ title: 'Trabalho' }} />
+    <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: cores.fundo } }}>
+      <Stack.Screen name="(tabs)" />
+      <Stack.Screen name="avaliacao/[etapaId]" />
+      <Stack.Screen name="proposta/[id]" />
+      <Stack.Screen name="trabalho/[id]" />
     </Stack>
   );
 }
