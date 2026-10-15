@@ -1,6 +1,6 @@
-import { Link, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import type { ReactNode } from 'react';
-import { Pressable, ScrollView, StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
+import { Alert, Pressable, ScrollView, StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useSessao } from '../../lib/sessao';
@@ -63,24 +63,32 @@ export function Cabecalho({ sobretitulo, titulo, comAcoes = true, temNovidade }:
       </View>
       {comAcoes && (
         <View style={estilos.acoes}>
-          <Link href="/notificacoes" asChild>
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={temNovidade ? 'Notificações, há novidades' : 'Notificações'}
-              style={({ pressed }) => [estilos.botaoRedondo, pressed && estilos.pressionado]}
-            >
-              <Icone nome="sino" tamanho={20} espessura={1.8} />
-              {temNovidade && <View style={estilos.ponto} />}
-            </Pressable>
-          </Link>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={temNovidade ? 'Notificações, há novidades' : 'Notificações'}
+            onPress={() => router.push('/notificacoes')}
+            style={({ pressed }) => [estilos.botaoRedondo, pressed && estilos.pressionado]}
+          >
+            <Icone nome="sino" tamanho={20} espessura={1.8} />
+            {temNovidade && <View style={estilos.ponto} />}
+          </Pressable>
           {usuario && (
             <Pressable
               accessibilityRole="button"
-              accessibilityLabel={`${usuario.nome}. Trocar de perfil`}
-              onPress={() => {
-                sair();
-                router.replace('/');
-              }}
+              accessibilityLabel={`${usuario.nome}. Abrir menu da conta`}
+              onPress={() =>
+                Alert.alert(usuario.nome, 'Você está usando o perfil de desenvolvimento.', [
+                  { text: 'Cancelar', style: 'cancel' },
+                  {
+                    text: 'Trocar de perfil',
+                    style: 'destructive',
+                    onPress: () => {
+                      router.replace('/');
+                      sair();
+                    },
+                  },
+                ])
+              }
               style={({ pressed }) => pressed && estilos.pressionado}
             >
               <Avatar nome={usuario.nome} tamanho={44} escuro />

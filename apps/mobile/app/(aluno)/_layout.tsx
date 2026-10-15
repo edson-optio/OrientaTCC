@@ -1,5 +1,6 @@
 import { Stack } from 'expo-router';
 
+import { useSessaoDoPerfil } from '../../src/lib/sessao';
 import { cores } from '../../src/tema/tokens';
 
 /**
@@ -7,6 +8,7 @@ import { cores } from '../../src/tema/tokens';
  * (entrega/[etapaId]) empilhado por cima, fora das abas.
  */
 export default function LayoutAluno() {
+  useSessaoDoPerfil('aluno');
   return (
     <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: cores.fundo } }}>
       <Stack.Screen name="(tabs)" />

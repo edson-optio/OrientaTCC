@@ -1,5 +1,6 @@
 import { Stack } from 'expo-router';
 
+import { useSessaoDoPerfil } from '../../src/lib/sessao';
 import { cores } from '../../src/tema/tokens';
 
 /**
@@ -7,6 +8,7 @@ import { cores } from '../../src/tema/tokens';
  * avaliacao de uma entrega, detalhe de proposta e detalhe do trabalho.
  */
 export default function LayoutOrientador() {
+  useSessaoDoPerfil('professor');
   return (
     <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: cores.fundo } }}>
       <Stack.Screen name="(tabs)" />
