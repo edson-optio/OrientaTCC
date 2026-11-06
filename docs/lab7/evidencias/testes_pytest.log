@@ -1,0 +1,31 @@
+$ python -m pytest -v
+============================= test session starts ==============================
+platform linux -- Python 3.13.5, pytest-9.2.0, pluggy-1.7.0 -- /workspace/lab7/servico/.venv/bin/python
+rootdir: /workspace/lab7/servico
+configfile: pytest.ini
+testpaths: tests
+plugins: anyio-4.15.1
+collecting ... collected 20 items
+
+tests/test_propostas.py::test_ct01_aceitar_proposta_cria_trabalho_e_publica_evento PASSED [  5%]
+tests/test_propostas.py::test_ct02_devolver_com_justificativa PASSED     [ 10%]
+tests/test_propostas.py::test_ct03_recusar_sem_justificativa_viola_regra PASSED [ 15%]
+tests/test_propostas.py::test_ct04_aceite_bloqueado_por_limite_de_orientandos PASSED [ 20%]
+tests/test_propostas.py::test_ct05_proposta_ja_respondida PASSED         [ 25%]
+tests/test_propostas.py::test_ct06_orientador_nao_destinatario PASSED    [ 30%]
+tests/test_propostas.py::test_ct07_aluno_nao_pode_responder PASSED       [ 35%]
+tests/test_propostas.py::test_ct08_decisao_invalida PASSED               [ 40%]
+tests/test_propostas.py::test_ct09_proposta_inexistente PASSED           [ 45%]
+tests/test_propostas.py::test_ct10_sem_autenticacao PASSED               [ 50%]
+tests/test_propostas.py::test_justificativa_curta_e_rejeitada PASSED     [ 55%]
+tests/test_propostas.py::test_ct11_submeter_proposta_valida PASSED       [ 60%]
+tests/test_propostas.py::test_ct12_aluno_com_proposta_ativa_nao_submete_outra PASSED [ 65%]
+tests/test_propostas.py::test_aluno_com_trabalho_em_andamento_nao_submete PASSED [ 70%]
+tests/test_propostas.py::test_aluno_pode_submeter_nova_proposta_apos_devolucao PASSED [ 75%]
+tests/test_propostas.py::test_ct13_submeter_com_campos_invalidos PASSED  [ 80%]
+tests/test_propostas.py::test_submeter_para_orientador_inexistente PASSED [ 85%]
+tests/test_propostas.py::test_consultar_proposta_por_participante_e_terceiro PASSED [ 90%]
+tests/test_propostas.py::test_listar_propostas_por_perfil_e_situacao PASSED [ 95%]
+tests/test_propostas.py::test_verificar_limite_orientandos PASSED        [100%]
+
+============================== 20 passed in 0.29s ==============================

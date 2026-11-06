@@ -1,0 +1,1091 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "OrientaTCC — Serviço de Propostas de Orientação",
+    "description": "Serviço do Bounded Context Propostas (domínio Core) do OrientaTCC. Disponibiliza as capacidades submeterProposta, consultarProposta, listarPropostas, verificarLimiteOrientandos e responderProposta.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/propostas": {
+      "post": {
+        "tags": [
+          "Propostas"
+        ],
+        "summary": "submeterProposta",
+        "description": "Aluno submete uma proposta (tema, resumo, objetivos e área de pesquisa) a um orientador.",
+        "operationId": "submeter_proposta_propostas_post",
+        "parameters": [
+          {
+            "name": "x-usuario-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Identificador do usuário autenticado",
+              "title": "X-Usuario-Id"
+            },
+            "description": "Identificador do usuário autenticado"
+          },
+          {
+            "name": "x-perfil",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "aluno | orientador",
+              "title": "X-Perfil"
+            },
+            "description": "aluno | orientador"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubmeterPropostaEntrada"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PropostaSaida"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição malformada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroSaida"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Ator não autenticado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroSaida"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou participação não permitidos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroSaida"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroSaida"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflito com a situação atual",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroSaida"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Entrada inválida ou regra de negócio violada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroSaida"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Propostas"
+        ],
+        "summary": "listarPropostas",
+        "description": "Aluno: propostas que submeteu. Orientador: propostas recebidas.",
+        "operationId": "listar_propostas_propostas_get",
+        "parameters": [
+          {
+            "name": "situacao",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/SituacaoProposta"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Situacao"
+            }
+          },
+          {
+            "name": "x-usuario-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Identificador do usuário autenticado",
+              "title": "X-Usuario-Id"
+            },
+            "description": "Identificador do usuário autenticado"
+          },
+          {
+            "name": "x-perfil",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "aluno | orientador",
+              "title": "X-Perfil"
+            },
+            "description": "aluno | orientador"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PropostaSaida"
+                  },
+                  "title": "Response Listar Propostas Propostas Get"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição malformada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroSaida"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Ator não autenticado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroSaida"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou participação não permitidos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroSaida"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroSaida"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflito com a situação atual",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroSaida"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Entrada inválida ou regra de negócio violada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroSaida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/propostas/{propostaId}": {
+      "get": {
+        "tags": [
+          "Propostas"
+        ],
+        "summary": "consultarProposta",
+        "operationId": "consultar_proposta_propostas__propostaId__get",
+        "parameters": [
+          {
+            "name": "propostaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Propostaid"
+            }
+          },
+          {
+            "name": "x-usuario-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Identificador do usuário autenticado",
+              "title": "X-Usuario-Id"
+            },
+            "description": "Identificador do usuário autenticado"
+          },
+          {
+            "name": "x-perfil",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "aluno | orientador",
+              "title": "X-Perfil"
+            },
+            "description": "aluno | orientador"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PropostaSaida"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição malformada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroSaida"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Ator não autenticado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroSaida"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou participação não permitidos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroSaida"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroSaida"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflito com a situação atual",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroSaida"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Entrada inválida ou regra de negócio violada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroSaida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/propostas/{propostaId}/resposta": {
+      "post": {
+        "tags": [
+          "Propostas"
+        ],
+        "summary": "responderProposta",
+        "description": "Orientador destinatário aceita, devolve para ajustes ou recusa a proposta.",
+        "operationId": "responder_proposta_propostas__propostaId__resposta_post",
+        "parameters": [
+          {
+            "name": "propostaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Propostaid"
+            }
+          },
+          {
+            "name": "x-usuario-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Identificador do usuário autenticado",
+              "title": "X-Usuario-Id"
+            },
+            "description": "Identificador do usuário autenticado"
+          },
+          {
+            "name": "x-perfil",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "aluno | orientador",
+              "title": "X-Perfil"
+            },
+            "description": "aluno | orientador"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResponderPropostaEntrada"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RespostaPropostaSaida"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição malformada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroSaida"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Ator não autenticado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroSaida"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou participação não permitidos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroSaida"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroSaida"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflito com a situação atual",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroSaida"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Entrada inválida ou regra de negócio violada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroSaida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orientadores/{orientadorId}/limite-orientandos": {
+      "get": {
+        "tags": [
+          "Orientadores"
+        ],
+        "summary": "verificarLimiteOrientandos",
+        "operationId": "verificar_limite_orientadores__orientadorId__limite_orientandos_get",
+        "parameters": [
+          {
+            "name": "orientadorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Orientadorid"
+            }
+          },
+          {
+            "name": "x-usuario-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Identificador do usuário autenticado",
+              "title": "X-Usuario-Id"
+            },
+            "description": "Identificador do usuário autenticado"
+          },
+          {
+            "name": "x-perfil",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "aluno | orientador",
+              "title": "X-Perfil"
+            },
+            "description": "aluno | orientador"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LimiteOrientandosSaida"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição malformada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroSaida"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Ator não autenticado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroSaida"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou participação não permitidos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroSaida"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroSaida"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflito com a situação atual",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroSaida"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Entrada inválida ou regra de negócio violada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroSaida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/saude": {
+      "get": {
+        "tags": [
+          "Infra"
+        ],
+        "summary": "Verificação de saúde",
+        "operationId": "saude_saude_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Decisao": {
+        "type": "string",
+        "enum": [
+          "aceitar",
+          "devolver",
+          "recusar"
+        ],
+        "title": "Decisao"
+      },
+      "ErroDetalhe": {
+        "properties": {
+          "codigo": {
+            "type": "string",
+            "title": "Codigo"
+          },
+          "mensagem": {
+            "type": "string",
+            "title": "Mensagem"
+          },
+          "detalhes": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Detalhes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "codigo",
+          "mensagem"
+        ],
+        "title": "ErroDetalhe"
+      },
+      "ErroSaida": {
+        "properties": {
+          "erro": {
+            "$ref": "#/components/schemas/ErroDetalhe"
+          }
+        },
+        "type": "object",
+        "required": [
+          "erro"
+        ],
+        "title": "ErroSaida"
+      },
+      "EventoSaida": {
+        "properties": {
+          "evento": {
+            "type": "string",
+            "title": "Evento"
+          },
+          "versao": {
+            "type": "integer",
+            "title": "Versao"
+          },
+          "ocorridoEm": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Ocorridoem"
+          },
+          "trabalhoId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trabalhoid"
+          },
+          "dados": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Dados"
+          }
+        },
+        "type": "object",
+        "required": [
+          "evento",
+          "versao",
+          "ocorridoEm",
+          "trabalhoId",
+          "dados"
+        ],
+        "title": "EventoSaida"
+      },
+      "LimiteOrientandosSaida": {
+        "properties": {
+          "orientadorId": {
+            "type": "string",
+            "title": "Orientadorid"
+          },
+          "limite": {
+            "type": "integer",
+            "title": "Limite"
+          },
+          "orientandosAtivos": {
+            "type": "integer",
+            "title": "Orientandosativos"
+          },
+          "vagasDisponiveis": {
+            "type": "integer",
+            "title": "Vagasdisponiveis"
+          },
+          "podeAceitar": {
+            "type": "boolean",
+            "title": "Podeaceitar"
+          }
+        },
+        "type": "object",
+        "required": [
+          "orientadorId",
+          "limite",
+          "orientandosAtivos",
+          "vagasDisponiveis",
+          "podeAceitar"
+        ],
+        "title": "LimiteOrientandosSaida"
+      },
+      "PropostaSaida": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "alunoId": {
+            "type": "string",
+            "title": "Alunoid"
+          },
+          "orientadorId": {
+            "type": "string",
+            "title": "Orientadorid"
+          },
+          "tema": {
+            "type": "string",
+            "title": "Tema"
+          },
+          "resumo": {
+            "type": "string",
+            "title": "Resumo"
+          },
+          "objetivos": {
+            "type": "string",
+            "title": "Objetivos"
+          },
+          "areaPesquisa": {
+            "type": "string",
+            "title": "Areapesquisa"
+          },
+          "situacao": {
+            "$ref": "#/components/schemas/SituacaoProposta"
+          },
+          "submetidaEm": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Submetidaem"
+          },
+          "respondidaEm": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Respondidaem"
+          },
+          "decisao": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Decisao"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "justificativa": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Justificativa"
+          },
+          "trabalhoId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trabalhoid"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "alunoId",
+          "orientadorId",
+          "tema",
+          "resumo",
+          "objetivos",
+          "areaPesquisa",
+          "situacao",
+          "submetidaEm"
+        ],
+        "title": "PropostaSaida"
+      },
+      "ResponderPropostaEntrada": {
+        "properties": {
+          "decisao": {
+            "$ref": "#/components/schemas/Decisao",
+            "description": "aceitar | devolver | recusar"
+          },
+          "justificativa": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Justificativa",
+            "description": "Obrigatória (mín. 10 caracteres) para devolver e recusar."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "decisao"
+        ],
+        "title": "ResponderPropostaEntrada"
+      },
+      "RespostaPropostaSaida": {
+        "properties": {
+          "proposta": {
+            "$ref": "#/components/schemas/PropostaSaida"
+          },
+          "trabalho": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TrabalhoSaida"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "eventoPublicado": {
+            "$ref": "#/components/schemas/EventoSaida"
+          }
+        },
+        "type": "object",
+        "required": [
+          "proposta",
+          "trabalho",
+          "eventoPublicado"
+        ],
+        "title": "RespostaPropostaSaida"
+      },
+      "SituacaoProposta": {
+        "type": "string",
+        "enum": [
+          "aguardando_orientador",
+          "devolvida",
+          "recusada",
+          "aceita"
+        ],
+        "title": "SituacaoProposta"
+      },
+      "SituacaoTrabalho": {
+        "type": "string",
+        "enum": [
+          "em_orientacao",
+          "concluido"
+        ],
+        "title": "SituacaoTrabalho"
+      },
+      "SubmeterPropostaEntrada": {
+        "properties": {
+          "orientadorId": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Orientadorid",
+            "examples": [
+              "prof-01"
+            ]
+          },
+          "tema": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 5,
+            "title": "Tema",
+            "examples": [
+              "Painel de andamento de TCC"
+            ]
+          },
+          "resumo": {
+            "type": "string",
+            "maxLength": 3000,
+            "minLength": 20,
+            "title": "Resumo"
+          },
+          "objetivos": {
+            "type": "string",
+            "maxLength": 2000,
+            "minLength": 10,
+            "title": "Objetivos"
+          },
+          "areaPesquisa": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 2,
+            "title": "Areapesquisa",
+            "examples": [
+              "Engenharia de Software"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "orientadorId",
+          "tema",
+          "resumo",
+          "objetivos",
+          "areaPesquisa"
+        ],
+        "title": "SubmeterPropostaEntrada"
+      },
+      "TrabalhoSaida": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "propostaId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Propostaid"
+          },
+          "alunoId": {
+            "type": "string",
+            "title": "Alunoid"
+          },
+          "orientadorId": {
+            "type": "string",
+            "title": "Orientadorid"
+          },
+          "situacao": {
+            "$ref": "#/components/schemas/SituacaoTrabalho"
+          },
+          "iniciadoEm": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Iniciadoem"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "propostaId",
+          "alunoId",
+          "orientadorId",
+          "situacao",
+          "iniciadoEm"
+        ],
+        "title": "TrabalhoSaida"
+      }
+    }
+  }
+}

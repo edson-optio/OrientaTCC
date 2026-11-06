@@ -4,6 +4,8 @@ build/
 .turbo/
 .expo/
 *.log
+# Logs da entrega do Lab 7 (pytest, curl e uvicorn) ficam versionados
+!docs/lab7/**/*.log
 .env
 .env.*
 !.env.example
