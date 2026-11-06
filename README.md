@@ -15,6 +15,22 @@ bun run dev:mobile   # Expo
 bun run typecheck    # todos os workspaces
 ```
 
+## Lab 7 — Serviço de Propostas de Orientação
+
+Especificação e implementação do serviço do Bounded Context **Propostas** (CC7532, Grupo 11), em FastAPI, isolado dos workspaces Bun. O relatório, as evidências e o código estão em [docs/lab7/](docs/lab7/). A documentação completa de contrato, execução e testes está em [docs/lab7/servico/README.md](docs/lab7/servico/README.md).
+
+Na pasta `docs/lab7/servico`:
+
+```sh
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn app.main:app --reload   # http://127.0.0.1:8000/docs
+python -m pytest -v             # 20 testes
+```
+
+A sessão é simulada pelos cabeçalhos `X-Usuario-Id` e `X-Perfil`. Este serviço não entra em `apps/api` nem em `apps/mobile`.
+
 ## Lab 5 — Mapa de Domínio e Linguagem Ubíqua
 
 A [especificação do domínio](docs/lab5/Mapa-Dominio-OrientaTCC.docx) preenche o template original da disciplina, preservando suas seções, tabelas e identidade visual. Contém a descrição do domínio, sete subdomínios com responsabilidades e justificativas, 24 termos com significados e exemplos, e o mapa incorporado ao documento.

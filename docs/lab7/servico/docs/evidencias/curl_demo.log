@@ -1,0 +1,154 @@
+### 1. verificarLimiteOrientandos (prof-02 está lotado)
+$ curl -s -X GET http://127.0.0.1:8000/orientadores/prof-02/limite-orientandos -H 'X-Usuario-Id: prof-02' -H 'X-Perfil: orientador'
+{
+  "orientadorId": "prof-02",
+  "limite": 2,
+  "orientandosAtivos": 2,
+  "vagasDisponiveis": 0,
+  "podeAceitar": false
+}
+HTTP 200
+
+### 2. responderProposta — aceite bloqueado pelo limite de orientandos
+$ curl -s -X POST http://127.0.0.1:8000/propostas/prop-0002/resposta -H 'X-Usuario-Id: prof-02' -H 'X-Perfil: orientador' -d '{"decisao":"aceitar"}'
+{
+  "erro": {
+    "codigo": "LIMITE_ORIENTANDOS_ATINGIDO",
+    "mensagem": "Limite de orientandos atingido (2/2)."
+  }
+}
+HTTP 409
+
+### 3. responderProposta — recusa sem justificativa (regra de negócio)
+$ curl -s -X POST http://127.0.0.1:8000/propostas/prop-0001/resposta -H 'X-Usuario-Id: prof-01' -H 'X-Perfil: orientador' -d '{"decisao":"recusar"}'
+{
+  "erro": {
+    "codigo": "JUSTIFICATIVA_OBRIGATORIA",
+    "mensagem": "A decisão 'recusar' exige justificativa com pelo menos 10 caracteres."
+  }
+}
+HTTP 422
+
+### 4. responderProposta — entrada inválida
+$ curl -s -X POST http://127.0.0.1:8000/propostas/prop-0001/resposta -H 'X-Usuario-Id: prof-01' -H 'X-Perfil: orientador' -d '{"decisao":"talvez"}'
+{
+  "erro": {
+    "codigo": "DADOS_INVALIDOS",
+    "mensagem": "Os dados de entrada são inválidos.",
+    "detalhes": [
+      {
+        "campo": "decisao",
+        "problema": "valor inválido; use 'aceitar', 'devolver' ou 'recusar'"
+      }
+    ]
+  }
+}
+HTTP 422
+
+### 5. responderProposta — aceite válido (cria Trabalho de TCC e publica PropostaAceita)
+$ curl -s -X POST http://127.0.0.1:8000/propostas/prop-0001/resposta -H 'X-Usuario-Id: prof-01' -H 'X-Perfil: orientador' -d '{"decisao":"aceitar","justificativa":"Tema alinhado à minha linha de pesquisa."}'
+{
+  "proposta": {
+    "id": "prop-0001",
+    "alunoId": "aluno-02",
+    "orientadorId": "prof-01",
+    "tema": "Recomendação de orientadores por área de pesquisa",
+    "resumo": "Estudo de técnicas para sugerir orientadores a partir da área de pesquisa e do histórico de TCCs.",
+    "objetivos": "Levantar critérios de recomendação; implementar protótipo; avaliar com alunos.",
+    "areaPesquisa": "Engenharia de Software",
+    "situacao": "aceita",
+    "submetidaEm": "2026-10-30T00:12:46.066494Z",
+    "respondidaEm": "2026-10-30T00:12:47.895535Z",
+    "decisao": "aceitar",
+    "justificativa": "Tema alinhado à minha linha de pesquisa.",
+    "trabalhoId": "tcc-0004"
+  },
+  "trabalho": {
+    "id": "tcc-0004",
+    "propostaId": "prop-0001",
+    "alunoId": "aluno-02",
+    "orientadorId": "prof-01",
+    "situacao": "em_orientacao",
+    "iniciadoEm": "2026-10-30T00:12:47.895527Z"
+  },
+  "eventoPublicado": {
+    "evento": "PropostaAceita",
+    "versao": 1,
+    "ocorridoEm": "2026-10-30T00:12:47.895544Z",
+    "trabalhoId": "tcc-0004",
+    "dados": {
+      "propostaId": "prop-0001",
+      "alunoId": "aluno-02",
+      "orientadorId": "prof-01",
+      "decisao": "aceitar",
+      "justificativa": "Tema alinhado à minha linha de pesquisa."
+    }
+  }
+}
+HTTP 200
+
+### 6. responderProposta — proposta já respondida
+$ curl -s -X POST http://127.0.0.1:8000/propostas/prop-0001/resposta -H 'X-Usuario-Id: prof-01' -H 'X-Perfil: orientador' -d '{"decisao":"recusar","justificativa":"Nova tentativa de resposta."}'
+{
+  "erro": {
+    "codigo": "PROPOSTA_JA_RESPONDIDA",
+    "mensagem": "A proposta já foi respondida (situação: aceita)."
+  }
+}
+HTTP 409
+
+### 7. submeterProposta — aluno-01
+$ curl -s -X POST http://127.0.0.1:8000/propostas -H 'X-Usuario-Id: aluno-01' -H 'X-Perfil: aluno' -d '{"orientadorId":"prof-01","tema":"Painel de andamento de TCC","resumo":"Painel para o orientador acompanhar etapas, entregas e pendências.","objetivos":"Levantar requisitos; implementar; avaliar.","areaPesquisa":"Engenharia de Software"}'
+{
+  "id": "prop-0003",
+  "alunoId": "aluno-01",
+  "orientadorId": "prof-01",
+  "tema": "Painel de andamento de TCC",
+  "resumo": "Painel para o orientador acompanhar etapas, entregas e pendências.",
+  "objetivos": "Levantar requisitos; implementar; avaliar.",
+  "areaPesquisa": "Engenharia de Software",
+  "situacao": "aguardando_orientador",
+  "submetidaEm": "2026-10-30T00:12:47.943687Z",
+  "respondidaEm": null,
+  "decisao": null,
+  "justificativa": null,
+  "trabalhoId": null
+}
+HTTP 201
+
+### 8. listarPropostas — orientador prof-01
+$ curl -s -X GET http://127.0.0.1:8000/propostas -H 'X-Usuario-Id: prof-01' -H 'X-Perfil: orientador'
+[
+  {
+    "id": "prop-0001",
+    "alunoId": "aluno-02",
+    "orientadorId": "prof-01",
+    "tema": "Recomendação de orientadores por área de pesquisa",
+    "resumo": "Estudo de técnicas para sugerir orientadores a partir da área de pesquisa e do histórico de TCCs.",
+    "objetivos": "Levantar critérios de recomendação; implementar protótipo; avaliar com alunos.",
+    "areaPesquisa": "Engenharia de Software",
+    "situacao": "aceita",
+    "submetidaEm": "2026-10-30T00:12:46.066494Z",
+    "respondidaEm": "2026-10-30T00:12:47.895535Z",
+    "decisao": "aceitar",
+    "justificativa": "Tema alinhado à minha linha de pesquisa.",
+    "trabalhoId": "tcc-0004"
+  },
+  {
+    "id": "prop-0003",
+    "alunoId": "aluno-01",
+    "orientadorId": "prof-01",
+    "tema": "Painel de andamento de TCC",
+    "resumo": "Painel para o orientador acompanhar etapas, entregas e pendências.",
+    "objetivos": "Levantar requisitos; implementar; avaliar.",
+    "areaPesquisa": "Engenharia de Software",
+    "situacao": "aguardando_orientador",
+    "submetidaEm": "2026-10-30T00:12:47.943687Z",
+    "respondidaEm": null,
+    "decisao": null,
+    "justificativa": null,
+    "trabalhoId": null
+  }
+]
+HTTP 200
+

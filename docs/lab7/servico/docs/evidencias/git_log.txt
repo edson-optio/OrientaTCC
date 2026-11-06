@@ -1,0 +1,5 @@
+186674b 29/10/2026 21:12 Edson Junior  fix: mensagens de validação em português
+dfbb354 29/10/2026 21:12 Edson Junior  docs: README em pt-BR e script de demonstração com curl
+9e314dc 29/10/2026 21:12 Edson Junior  test: testes automatizados do contrato de responderProposta
+3152f98 29/10/2026 21:12 Edson Junior  docs: especificação OpenAPI do serviço
+fcdaad9 29/10/2026 21:12 Edson Junior  feat: domínio e casos de uso do serviço de Propostas
